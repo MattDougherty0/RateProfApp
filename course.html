@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HateMyProfessor - Course Details</title>
+    <meta name="description" content="Course details with ratings, resources, and verified reviews.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    <meta property="og:title" content="HateMyProfessor - Course Details">
+    <meta property="og:description" content="Course details with ratings, resources, and verified reviews.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/course.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3f3f46 0%, #27272a 100%);
+            --secondary-gradient: linear-gradient(135deg, #7c2d12 0%, #991b1b 100%);
+            --accent-gradient: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            --success-gradient: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            --dark-bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: rgba(248, 250, 252, 0.7);
+            --text-muted: rgba(248, 250, 252, 0.4);
+            --shadow-primary: 0 25px 50px rgba(0, 0, 0, 0.5);
+            --shadow-secondary: 0 15px 35px rgba(0, 0, 0, 0.3);
+            --shadow-subtle: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(63, 63, 70, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(39, 39, 42, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(63, 63, 70, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding: 20px 0;
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .header h1, .coursewise-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            opacity: 0.9;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-actions { display:flex; gap:16px; align-items:center; }
+        .hamburger { display:none; background:none; border:none; color:var(--text-secondary); font-size:1.4rem; cursor:pointer; }
+        @media (max-width: 768px) { .hamburger{display:block;} .header-nav{display:none;} .header-nav.open{display:flex; flex-direction:column; gap:16px;} }
+        .header-nav a.active { color: var(--text-primary); }
+        .header-nav a.active::after { width: 100%; }
+        .loading-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.4); z-index:9999; }
+        .spinner { width:48px; height:48px; border:4px solid rgba(255,255,255,0.2); border-top-color:#fff; border-radius:50%; animation:spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg);} }
+        .error-box { background: rgba(245,87,108,0.1); border:1px solid rgba(245,87,108,0.3); color:#f5576c; padding:16px; border-radius:12px; margin-top:16px; }
+        .review-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+        .tag { background: rgba(255,255,255,0.06); border:1px solid var(--border-color); color:var(--text-secondary); padding:4px 10px; border-radius:12px; font-size:0.8rem; }
+        .filters { display:flex; gap:12px; align-items:center; margin: 0 0 16px 0; }
+        .filters select, .filters input { padding:8px 10px; border-radius:8px; border:1px solid var(--border-color); background: rgba(255,255,255,0.06); color:var(--text-primary); }
+
+        .course-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .course-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .course-professor {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .course-professor .prof-label {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-right: 8px;
+        }
+
+        .course-professor a {
+            color: #a5b4fc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .course-professor a:hover {
+            color: #c7d2fe;
+        }
+
+        .course-meta {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .course-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin: 16px 0;
+            line-height: 1.7;
+        }
+
+        .course-divider {
+            border-bottom: 1px solid var(--border-color);
+            margin: 20px 0;
+        }
+
+        .course-ratings {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 12px;
+        }
+
+        .rating {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+        }
+
+        .rating-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .rating-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .school-link {
+            color: #a5b4fc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .school-link:hover {
+            color: #c7d2fe;
+        }
+
+        .resources-section, .reviews-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 32px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(63, 63, 70, 0.3);
+        }
+
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .resource-type {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .resource-type.pdf {
+            background: rgba(245, 87, 108, 0.2);
+            color: #f093fb;
+            border: 1px solid rgba(245, 87, 108, 0.3);
+        }
+
+        .resource-downloads {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .download-icon {
+            font-size: 1.2rem;
+        }
+
+        .resource-name {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .resource-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .upload-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .download-button {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-subtle);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+        }
+
+        .no-resources {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(63, 63, 70, 0.3);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .review-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .review-rating {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .review-rating-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .rating-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .review-text {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .review-professor {
+            color: #a5b4fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container { 
+                padding: 16px; 
+            }
+            
+            .header { 
+                flex-direction: column; 
+                gap: 24px; 
+                padding: 24px; 
+            }
+            
+            .header h1, .coursewise-title {
+                font-size: 2.2rem;
+            }
+            
+            .course-header, .resources-section, .reviews-section { 
+                padding: 32px 24px; 
+            }
+            
+            .course-title {
+                font-size: 2rem;
+            }
+            
+            .course-ratings {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: rgba(63, 63, 70, 0.3);
+            color: white;
+        }
+
+        /* Focus styling for accessibility */
+        *:focus {
+            outline: 2px solid rgba(63, 63, 70, 0.5);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+    <div class="container">
+        <header class="header">
+            <a href="index.html" class="header-logo" style="text-decoration: none; color: inherit;">HateMyProfessor</a>
+            <button class="hamburger" id="hamburgerBtn">☰</button>
+            <nav class="header-nav" id="mainNav">
+                <a href="index.html#professors" id="navProf">Professors</a>
+                <a href="index.html#schools" id="navSchools">Schools</a>
+                <a href="index.html#classes" id="navClasses">Classes</a>
+            </nav>
+        </header>
+
+        <div id="courseDetails" class="course-header">
+            <!-- Course details will be populated by JavaScript -->
+        </div>
+
+        <div id="resourcesSection" class="resources-section">
+            <h2 class="section-title">Course Resources</h2>
+            <div class="resources-list">
+                <!-- Resources will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div id="reviewsSection" class="reviews-section">
+            <h2 class="section-title">Reviews</h2>
+            <div class="filters">
+                <label style="color:var(--text-secondary);">Sort:
+                    <select id="sortSelect">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="ratingHigh">Rating: High to Low</option>
+                        <option value="ratingLow">Rating: Low to High</option>
+                    </select>
+                </label>
+                <label style="color:var(--text-secondary);">Tag:
+                    <input id="tagFilter" placeholder="e.g. engaging" />
+                </label>
+            </div>
+            <div id="reviewsList" class="review-list"></div>
+        </div>
+    </div>
+
+    <script>
+        function showLoader(show){ document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none'; }
+        document.getElementById('hamburgerBtn').addEventListener('click', ()=>{ document.getElementById('mainNav').classList.toggle('open'); });
+        function setActiveNav(section){
+            if(section==='class') document.getElementById('navClasses').classList.add('active');
+        }
+        function applyFiltersAndSort(reviews){
+            const sort = document.getElementById('sortSelect').value;
+            const tag = (document.getElementById('tagFilter').value||'').trim().toLowerCase();
+            let list = [...reviews];
+            if(tag){ list = list.filter(r => Array.isArray(r.tags) && r.tags.some(t => (''+t).toLowerCase().includes(tag))); }
+            if(sort==='newest'){ list.sort((a,b)=> new Date(b.date)-new Date(a.date)); }
+            if(sort==='oldest'){ list.sort((a,b)=> new Date(a.date)-new Date(b.date)); }
+            if(sort==='ratingHigh'){ list.sort((a,b)=> (b.rating||0)-(a.rating||0)); }
+            if(sort==='ratingLow'){ list.sort((a,b)=> (a.rating||0)-(b.rating||0)); }
+            return list;
+        }
+
+        // Function to load and parse JSON data
+        async function loadData() {
+            try {
+                showLoader(true);
+                const response = await fetch('data.json?t=' + Date.now());
+                if(!response.ok) throw new Error('Failed to load data');
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                const reviewsSection = document.getElementById('reviewsSection');
+                const errorBox = document.createElement('div');
+                errorBox.className = 'error-box';
+                errorBox.textContent = 'Failed to load data. Please refresh.';
+                reviewsSection.appendChild(errorBox);
+                return null;
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        // Function to get course ID from URL
+        function getCourseIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // Function to get school ID from URL
+        function getSchoolIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id') || params.get('school');
+        }
+
+        // Function to render course details
+        function renderCourseDetails(course, school, professors) {
+            const courseDetailsDiv = document.getElementById('courseDetails');
+            // Find all professors for this course
+            const courseProfs = course.professorIds.map(profId => professors.find(p => p.id === profId)).filter(p => p);
+            courseDetailsDiv.innerHTML = `
+                <div class="course-title">${course.code}: ${course.name}</div>
+                <div class="course-professor"><span class="prof-label">Professor:</span> ${courseProfs.map(prof => 
+                    `<a href="professor.html?id=${prof.id}" style="color:#2563eb;text-decoration:none;">${prof.firstName} ${prof.lastName}</a>`
+                ).join(', ')}</div>
+                <div class="course-meta">Department: ${course.department} | School: <a href="school.html?id=${course.schoolId}" style="color:#2563eb;text-decoration:none;">${school.name}</a></div>
+                ${course.description ? `<div class='course-description'>${course.description}</div>` : ''}
+                <div class="course-divider"></div>
+                <div class="course-ratings">
+                    <div class="rating">
+                        <span class="rating-label">Overall Rating</span>
+                        <span class="rating-value">${course.ratings.overall.toFixed(1)}</span>
+                    </div>
+                    <div class="rating">
+                        <span class="rating-label">Difficulty</span>
+                        <span class="rating-value">${course.ratings.difficulty.toFixed(1)}</span>
+                    </div>
+                    <div class="rating">
+                        <span class="rating-label">Workload</span>
+                        <span class="rating-value">${course.ratings.workload.toFixed(1)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to render resources
+        function renderResources(resources) {
+            const resourcesListDiv = document.querySelector('.resources-list');
+            if (!resources || resources.length === 0) {
+                resourcesListDiv.innerHTML = '<p class="no-resources">No resources available yet.</p>';
+                return;
+            }
+
+            resourcesListDiv.innerHTML = `
+                <div class="resources-grid">
+                    ${resources.map(resource => `
+                        <div class="resource-card">
+                            <div class="resource-header">
+                                <div class="resource-type ${resource.type}">${resource.type.toUpperCase()}</div>
+                                <div class="resource-downloads">
+                                    <span class="download-icon">↓</span>
+                                    ${resource.downloadCount}
+                        </div>
+                            </div>
+                            <div class="resource-name">${resource.name}</div>
+                            <div class="resource-meta">
+                                <div class="upload-info">
+                                    <span class="uploaded-by">By ${resource.uploadedBy}</span>
+                                    <span class="upload-date">${new Date(resource.uploadDate).toLocaleDateString()}</span>
+                            </div>
+                                <button class="download-button" onclick="downloadResource('${resource.id}')">
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                    </div>
+                `;
+        }
+
+        // Function to render reviews
+        function renderReviews(professors, courseId) {
+            // Gather all reviews for this course
+            let courseReviews = [];
+            for (const prof of professors) {
+                for (const review of prof.reviews || []) {
+                    if (review.courseId === courseId) {
+                        courseReviews.push({
+                            ...review,
+                            professor: prof
+                        });
+                    }
+                }
+            }
+            const listContainer = document.getElementById('reviewsList');
+            if (courseReviews.length === 0) {
+                listContainer.innerHTML = '<div class="no-content">No reviews yet for this course.</div>';
+                return;
+            }
+            const finalReviews = applyFiltersAndSort(courseReviews);
+            listContainer.innerHTML = finalReviews.map(r => `
+                <div class="review-card">
+                    <div class="review-professor">${r.professor ? r.professor.firstName + ' ' + r.professor.lastName : ''}</div>
+                    <div class="review-header">
+                        <span class="review-date">${new Date(r.date).toLocaleDateString()}</span>
+                        <span class="review-rating">
+                            <span class="review-rating-label">Rating:</span>
+                            <span class="rating-number">${r.rating}/5</span>
+                        </span>
+                    </div>
+                    <div class="review-text">${r.comment}</div>
+                    ${r.tags ? `<div class="review-tags">${r.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Function to initialize the course page
+        async function initialize() {
+            // Ensure we're at the top before loading content
+            window.scrollTo(0, 0);
+            
+            const data = await loadData();
+            if (!data) return;
+            const courseId = getCourseIdFromUrl();
+            const course = data.courses.find(c => c.id === courseId);
+            if (!course) {
+                document.getElementById('courseDetails').innerHTML = '<div class="course-header"><h2>Course not found</h2></div>';
+                document.getElementById('reviewsSection').innerHTML = '';
+                return;
+            }
+            setActiveNav('class');
+            const school = data.schools.find(s => s.id === course.schoolId);
+            renderCourseDetails(course, school, data.professors);
+            renderResources(course.resources);
+            function updateReviews(){ renderReviews(data.professors, courseId); }
+            renderReviews(data.professors, courseId);
+            document.getElementById('sortSelect').addEventListener('change', updateReviews);
+            document.getElementById('tagFilter').addEventListener('input', updateReviews);
+            
+            // Ensure we're at the top after content is rendered
+            window.scrollTo(0, 0);
+            setTimeout(() => window.scrollTo(0, 0), 50);
+            setTimeout(() => window.scrollTo(0, 0), 200);
+        }
+
+        // Disable browser scroll restoration
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Immediately prevent any scrolling on page load
+        (function() {
+            window.scrollTo(0, 0);
+            if (window.location.hash) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.scrollTo(0, 0);
+        });
+
+        // Replace old initialization with new one
+        initialize();
+    </script>
+</body>
+</html> 

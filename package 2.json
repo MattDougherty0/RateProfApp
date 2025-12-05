@@ -1,0 +1,20 @@
+{
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "ingest": "tsx harvest/run.ts",
+    "ingest:cornell": "pnpm run ingest cornell",
+    "qa:cornell": "tsx harvest/qa.ts",
+    "start:dist:cornell": "node -r dotenv/config dist/harvest/run.js cornell"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "cheerio": "^1.1.2",
+    "dotenv": "^17.2.1",
+    "node-fetch": "^3.3.2"
+  }
+}

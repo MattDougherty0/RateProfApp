@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HateMyProfessor - School Details</title>
+    <meta name="description" content="School details with professors, courses, and stats.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E🏫%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    <meta property="og:title" content="HateMyProfessor - School Details">
+    <meta property="og:description" content="School details with professors, courses, and stats.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/school.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3f3f46 0%, #27272a 100%);
+            --secondary-gradient: linear-gradient(135deg, #7c2d12 0%, #991b1b 100%);
+            --accent-gradient: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            --success-gradient: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            --dark-bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: rgba(248, 250, 252, 0.7);
+            --text-muted: rgba(248, 250, 252, 0.4);
+            --shadow-primary: 0 25px 50px rgba(0, 0, 0, 0.5);
+            --shadow-secondary: 0 15px 35px rgba(0, 0, 0, 0.3);
+            --shadow-subtle: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(63, 63, 70, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(39, 39, 42, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(63, 63, 70, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding: 20px 0;
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .header h1, .coursewise-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            opacity: 0.9;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .school-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .school-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .school-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .school-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .school-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .programs-section {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .programs-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .program-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-link {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: #c7d2fe;
+        }
+
+        .professors-section, .courses-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 32px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .professors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .professor-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .professor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(63, 63, 70, 0.3);
+        }
+
+        .prof-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .prof-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .prof-info h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .prof-info p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .prof-ratings {
+            display: flex;
+            justify-content: center;
+        }
+
+        .prof-rating {
+            text-align: center;
+        }
+
+        .prof-rating-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+            display: block;
+        }
+
+        .prof-rating-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 32px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .professors-grid, .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .professor-card, .course-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .professor-card:hover, .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(63, 63, 70, 0.3);
+        }
+
+        .prof-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .prof-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .prof-info h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .prof-info p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .prof-ratings {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .prof-rating {
+            text-align: center;
+            flex: 1;
+        }
+
+        .prof-rating-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .prof-rating-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .course-code {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .course-name {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .course-department {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .course-ratings {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .course-rating {
+            text-align: center;
+            flex: 1;
+        }
+
+        .course-rating-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .course-rating-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .no-content {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 24px;
+                padding: 24px;
+            }
+            
+            .header h1, .coursewise-title {
+                font-size: 2.2rem;
+            }
+            
+            .school-header {
+                padding: 32px 24px;
+            }
+            
+            .school-name {
+                font-size: 2rem;
+            }
+            
+            .school-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .school-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            
+            .professors-section, .courses-section {
+                padding: 32px 24px;
+            }
+            
+            .professors-grid, .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .prof-ratings, .course-ratings {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: rgba(63, 63, 70, 0.3);
+            color: white;
+        }
+
+        /* Focus styling for accessibility */
+        *:focus {
+            outline: 2px solid rgba(63, 63, 70, 0.5);
+            outline-offset: 2px;
+        }
+        .hamburger { display:none; background:none; border:none; color:var(--text-secondary); font-size:1.4rem; cursor:pointer; }
+        @media (max-width: 768px) { .hamburger{display:block;} .header-nav{display:none;} .header-nav.open{display:flex; flex-direction:column; gap:16px;} }
+        .header-nav a.active { color: var(--text-primary); }
+        .header-nav a.active::after { width: 100%; }
+        .loading-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.4); z-index:9999; }
+        .spinner { width:48px; height:48px; border:4px solid rgba(255,255,255,0.2); border-top-color:#fff; border-radius:50%; animation:spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg);} }
+        .error-box { background: rgba(245,87,108,0.1); border:1px solid rgba(245,87,108,0.3); color:#f5576c; padding:16px; border-radius:12px; margin-top:16px; }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+    <div class="container">
+        <header class="header">
+            <a href="index.html" class="header-logo" style="text-decoration: none; color: inherit;">HateMyProfessor</a>
+            <button class="hamburger" id="hamburgerBtn">☰</button>
+            <nav class="header-nav" id="mainNav">
+                <a href="index.html#professors" id="navProf">Professors</a>
+                <a href="index.html#schools" id="navSchools">Schools</a>
+                <a href="index.html#classes" id="navClasses">Classes</a>
+            </nav>
+        </header>
+
+        <div id="schoolDetails" class="school-header">
+            <!-- School details will be populated by JavaScript -->
+        </div>
+
+        <div id="professorsSection" class="professors-section">
+            <h2 class="section-title">Professors</h2>
+            <div id="professorsList" class="professors-grid">
+                <!-- Professors will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div id="coursesSection" class="courses-section">
+            <h2 class="section-title">Courses</h2>
+            <div id="coursesList" class="courses-grid">
+                <!-- Courses will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    <script>
+        function showLoader(show){ document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none'; }
+        document.getElementById('hamburgerBtn').addEventListener('click', ()=>{ document.getElementById('mainNav').classList.toggle('open'); });
+        function setActiveNav(){ document.getElementById('navSchools').classList.add('active'); }
+        async function loadData() {
+            try {
+                showLoader(true);
+                const response = await fetch('data.json?t=' + Date.now());
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading data:', error);
+                const err = document.createElement('div');
+                err.className = 'error-box';
+                err.textContent = 'Failed to load data. Please refresh.';
+                document.querySelector('.container').prepend(err);
+                return null;
+            } finally { showLoader(false); }
+        }
+        function getSchoolIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+        function renderSchoolDetails(school) {
+            document.title = `${school.name} - HateMyProfessor`;
+            const schoolDetailsHtml = `
+                <h1 class="school-name">${school.name}</h1>
+                <div class="school-info">
+                    <div class="info-item">
+                        <span class="info-label">Enrollment</span>
+                        <span class="info-value">${school.enrollment.toLocaleString()} students</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Location</span>
+                        <span class="info-value">${school.location.city}, ${school.location.state}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Founded</span>
+                        <span class="info-value">${school.foundedYear}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Type</span>
+                        <span class="info-value">${school.type.charAt(0).toUpperCase() + school.type.slice(1)}</span>
+                     </div>
+                </div>
+                ${school.description ? `<div class="school-description">${school.description}</div>` : ''}
+                ${school.notablePrograms && school.notablePrograms.length > 0 ? `
+                <div class="programs-section">
+                    <h3 class="programs-title">Notable Programs</h3>
+                    <div class="programs-grid">
+                        ${school.notablePrograms.map(program => `
+                            <div class="program-card">${program}</div>
+                        `).join('')}
+                     </div>
+                </div>` : ''}
+                ${(school.website || school.socialMedia.twitter || school.socialMedia.facebook || school.socialMedia.instagram) ? `
+                <div class="social-links">
+                    ${school.website ? `<a href="${school.website}" target="_blank" class="social-link">Official Website</a>` : ''}
+                    ${school.socialMedia.twitter ? `<a href="${school.socialMedia.twitter}" target="_blank" class="social-link">Twitter</a>` : ''}
+                    ${school.socialMedia.facebook ? `<a href="${school.socialMedia.facebook}" target="_blank" class="social-link">Facebook</a>` : ''}
+                    ${school.socialMedia.instagram ? `<a href="${school.socialMedia.instagram}" target="_blank" class="social-link">Instagram</a>` : ''}
+                </div>` : ''}
+            `;
+            document.getElementById('schoolDetails').innerHTML = schoolDetailsHtml;
+        }
+        function renderProfessorCards(professors, schoolId) {
+            const schoolProfessors = professors.filter(prof => 
+                prof.schoolAffiliations.some(aff => 
+                    aff.schoolId === schoolId && aff.isCurrent
+                )
+            );
+            
+            if (schoolProfessors.length === 0) {
+                document.getElementById('professorsList').innerHTML = '<div class="no-content">No professors found for this school.</div>';
+                return;
+            }
+            
+            const professorsHtml = schoolProfessors.map(prof => {
+                const initials = `${prof.firstName[0] || ''}${prof.lastName[0] || ''}`.toUpperCase();
+                return `
+                <div class="professor-card" onclick="window.location.href='professor.html?id=${prof.id}'">
+                    <div class="prof-header">
+                        <div class="prof-avatar">${initials}</div>
+                        <div class="prof-info">
+                            <h3>${prof.firstName} ${prof.lastName}</h3>
+                            <p>${prof.departments.join(', ')}</p>
+                        </div>
+                    </div>
+                                        <div class="prof-ratings">
+                        <div class="prof-rating">
+                            <span class="prof-rating-value">${prof.ratings.overall.toFixed(1)}</span>
+                            <span class="prof-rating-label">Overall Rating</span>
+                        </div>
+                        </div>
+                                    </div>
+                                `;
+            }).join('');
+            document.getElementById('professorsList').innerHTML = professorsHtml;
+        }
+        function renderCourseCards(courses, schoolId) {
+            const schoolCourses = courses.filter(course => course.schoolId === schoolId);
+            
+            if (schoolCourses.length === 0) {
+                document.getElementById('coursesList').innerHTML = '<div class="no-content">No courses found for this school.</div>';
+                return;
+            }
+            
+            const coursesHtml = schoolCourses.map(course => `
+                <div class="professor-card" onclick="window.location.href='course.html?id=${course.id}'">
+                    <div class="prof-header">
+                        <div class="prof-info">
+                            <h3>${course.code}: ${course.name}</h3>
+                            <p>${course.department}</p>
+                        </div>
+                    </div>
+                    <div class="prof-ratings">
+                        <div class="prof-rating">
+                            <span class="prof-rating-value">${course.ratings.overall.toFixed(1)}</span>
+                            <span class="prof-rating-label">Overall Rating</span>
+                        </div>
+                        <div class="prof-rating">
+                            <span class="prof-rating-value">${course.ratings.difficulty.toFixed(1)}</span>
+                            <span class="prof-rating-label">Difficulty</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('coursesList').innerHTML = coursesHtml;
+        }
+
+        async function initializePage() {
+            // Ensure we're at the top before loading content
+            window.scrollTo(0, 0);
+            
+            const data = await loadData();
+            if (!data) return;
+            setActiveNav();
+            const schoolId = getSchoolIdFromUrl();
+            if (!schoolId) {
+                console.error('No school ID provided');
+                return;
+            }
+            const school = data.schools.find(s => s.id === schoolId);
+            if (!school) {
+                console.error('School not found');
+                return;
+            }
+            renderSchoolDetails(school);
+            renderProfessorCards(data.professors, schoolId);
+            renderCourseCards(data.courses, schoolId);
+            
+            // Ensure we're at the top after content is rendered
+            window.scrollTo(0, 0);
+            setTimeout(() => window.scrollTo(0, 0), 50);
+            setTimeout(() => window.scrollTo(0, 0), 200);
+        }
+
+
+
+        // Disable browser scroll restoration
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Immediately prevent any scrolling on page load
+        (function() {
+            window.scrollTo(0, 0);
+            if (window.location.hash) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.scrollTo(0, 0);
+        });
+
+        // Initialize the page
+        initializePage();
+    </script>
+</body>
+</html> 

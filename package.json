@@ -1,0 +1,30 @@
+{
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "ingest": "tsx harvest/run.ts",
+    "ingest:cornell": "pnpm run ingest cornell",
+    "ingest:stanford": "pnpm run ingest stanford",
+    "qa:cornell": "tsx harvest/qa.ts",
+    "qa:stanford": "tsx harvest/qa.stanford.ts",
+    "start:dist:cornell": "node -r dotenv/config dist/harvest/run.js cornell",
+    "professors:seed:cornell": "tsx harvest/professors.seed.ts",
+    "faculty:seed:stanford": "tsx harvest/adapters/stanford.faculty.seed.ts",
+    "faculty:seed:stanford:econ": "tsx harvest/adapters/stanford.econ.faculty.seed.ts",
+    "faculty:seed:stanford:cs": "tsx harvest/adapters/stanford.cs.faculty.seed.ts",
+    "qa:stanford:emails": "node -e \"const fs=require('fs');const p='./data/stanford';const i=fs.readFileSync(p+'/instructors.ndjson','utf8').trim().split('\\n').map(JSON.parse);const d=fs.existsSync(p+'/professors_from_directory.ndjson')?fs.readFileSync(p+'/professors_from_directory.ndjson','utf8').trim().split('\\n').map(JSON.parse):[];const di=new Map(d.map(x=>[String(x.name||'').toLowerCase(),x]));let hit=0;for(const r of i){if(di.has(String(r.name||'').toLowerCase())) hit++;}console.log(JSON.stringify({instructors:i.length, directory:d.length, nameMatches:hit, pctNameMatch: i.length?+(100*hit/i.length).toFixed(1):0},null,2));\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "tsx": "^4.20.4",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^17.2.1",
+    "node-fetch": "^3.3.2"
+  }
+}
+
+
+

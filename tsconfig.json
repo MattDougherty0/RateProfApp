@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "strict": false,
+    "outDir": "dist",
+    "rootDir": ".",
+    "allowJs": false
+  },
+  "include": ["harvest/**/*.ts"]
+}
+
+
+

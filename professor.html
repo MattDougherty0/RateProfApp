@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HateMyProfessor - Professor Profile</title>
+    <meta name="description" content="Professor profiles with verified reviews, ratings, tags, and course context.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    <meta property="og:title" content="HateMyProfessor - Professor Profile">
+    <meta property="og:description" content="Professor profiles with verified reviews, ratings, tags, and course context.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/professor.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3f3f46 0%, #27272a 100%);
+            --secondary-gradient: linear-gradient(135deg, #7c2d12 0%, #991b1b 100%);
+            --accent-gradient: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            --success-gradient: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            --dark-bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: rgba(248, 250, 252, 0.7);
+            --text-muted: rgba(248, 250, 252, 0.4);
+            --shadow-primary: 0 25px 50px rgba(0, 0, 0, 0.5);
+            --shadow-secondary: 0 15px 35px rgba(0, 0, 0, 0.3);
+            --shadow-subtle: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(63, 63, 70, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(39, 39, 42, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(63, 63, 70, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding: 20px 0;
+            background: transparent;
+            backdrop-filter: none;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .header h1, .coursewise-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            opacity: 0.9;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-actions { display: flex; gap: 16px; align-items: center; }
+        .hamburger { display:none; background:none; border:none; color:var(--text-secondary); font-size:1.4rem; cursor:pointer; }
+        @media (max-width: 768px) { .hamburger{display:block;} .header-nav{display:none;} .header-nav.open{display:flex; flex-direction:column; gap:16px;} }
+        .header-nav a.active { color: var(--text-primary); }
+        .header-nav a.active::after { width: 100%; }
+
+        .prof-header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .prof-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 36px;
+            box-shadow: var(--shadow-secondary);
+            flex-shrink: 0;
+        }
+
+        .prof-info {
+            flex: 1;
+        }
+
+        .prof-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .prof-department {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .prof-school {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .prof-school a {
+            color: #a5b4fc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .prof-school a:hover {
+            color: #c7d2fe;
+        }
+
+        .prof-ratings {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .rating-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rating-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .rating-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .courses-section, .reviews-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 32px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .course-code {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .course-name {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .course-ratings {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .course-rating {
+            text-align: center;
+            flex: 1;
+        }
+
+        .course-rating-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .course-rating-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .review-course {
+            color: #a5b4fc;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .review-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .review-ratings {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .review-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .review-rating-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .review-rating-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .review-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .review-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .no-content {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .filters { display:flex; gap:12px; align-items:center; margin-bottom:16px; }
+        .filters select, .filters input { padding:8px 10px; border-radius:8px; border:1px solid var(--border-color); background: rgba(255,255,255,0.06); color:var(--text-primary); }
+        .loading-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.4); z-index:9999; }
+        .spinner { width:48px; height:48px; border:4px solid rgba(255,255,255,0.2); border-top-color:#fff; border-radius:50%; animation:spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .error-box { background: rgba(245, 87, 108, 0.1); border:1px solid rgba(245,87,108,0.3); color:#f5576c; padding:16px; border-radius:12px; margin-top:16px; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 24px;
+                padding: 24px;
+            }
+            
+            .header h1, .coursewise-title {
+                font-size: 2.2rem;
+            }
+            
+            .prof-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 32px 24px;
+            }
+            
+            .prof-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 30px;
+            }
+            
+            .prof-name {
+                font-size: 2rem;
+            }
+            
+            .prof-ratings {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            
+            .courses-section, .reviews-section {
+                padding: 32px 24px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-ratings {
+            flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: rgba(63, 63, 70, 0.3);
+            color: white;
+        }
+
+        /* Focus styling for accessibility */
+        *:focus {
+            outline: 2px solid rgba(63, 63, 70, 0.5);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+    <div class="container">
+        <header class="header">
+            <a href="index.html" class="header-logo" style="text-decoration: none; color: inherit;">HateMyProfessor</a>
+            <button class="hamburger" id="hamburgerBtn">☰</button>
+            <nav class="header-nav" id="mainNav">
+                <a href="index.html#professors" id="navProf">Professors</a>
+                <a href="index.html#schools" id="navSchools">Schools</a>
+                <a href="index.html#classes" id="navClasses">Classes</a>
+            </nav>
+        </header>
+
+        <div id="professorHeader" class="prof-header">
+            <!-- Professor details will be populated by JavaScript -->
+        </div>
+
+        <div id="coursesSection" class="courses-section">
+            <h2 class="section-title">Courses</h2>
+            <div id="coursesList" class="courses-grid">
+                <!-- Courses will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div id="reviewsSection" class="reviews-section">
+            <h2 class="section-title">Reviews</h2>
+            <div class="filters">
+                <label style="color:var(--text-secondary);">Sort:
+                    <select id="sortSelect">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="ratingHigh">Rating: High to Low</option>
+                        <option value="ratingLow">Rating: Low to High</option>
+                    </select>
+                </label>
+                <label style="color:var(--text-secondary);">Tag:
+                    <input id="tagFilter" placeholder="e.g. engaging" />
+                </label>
+            </div>
+            <div id="reviewsList" class="review-list"></div>
+            <div id="reviewsError" class="error-box" style="display:none;"></div>
+        </div>
+        </div>
+
+    <script>
+        // Disable browser scroll restoration
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Immediately prevent any scrolling on page load
+        (function() {
+            window.scrollTo(0, 0);
+            if (window.location.hash) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+        })();
+        
+        // Simple helpers
+        function showLoader(show){ document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none'; }
+        function setActiveNav(section){
+            if(section==='prof') document.getElementById('navProf').classList.add('active');
+            if(section==='school') document.getElementById('navSchools').classList.add('active');
+            if(section==='class') document.getElementById('navClasses').classList.add('active');
+        }
+        document.getElementById('hamburgerBtn').addEventListener('click', ()=>{
+            document.getElementById('mainNav').classList.toggle('open');
+        });
+
+        // Function to load and parse JSON data
+        async function loadData() {
+            try {
+                showLoader(true);
+                const response = await fetch('data.json?t=' + Date.now());
+                if(!response.ok) throw new Error('Failed to load data');
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('reviewsError').style.display='block';
+                document.getElementById('reviewsError').textContent = 'Failed to load data. Please refresh.';
+                return null;
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        // Function to get professor ID from URL
+        function getProfessorIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        function applyFiltersAndSort(reviews){
+            const sort = document.getElementById('sortSelect').value;
+            const tag = (document.getElementById('tagFilter').value || '').trim().toLowerCase();
+            let list = [...reviews];
+            if(tag){ list = list.filter(r => Array.isArray(r.tags) && r.tags.some(t => (''+t).toLowerCase().includes(tag))); }
+            if(sort==='newest'){ list.sort((a,b)=> new Date(b.date)-new Date(a.date)); }
+            if(sort==='oldest'){ list.sort((a,b)=> new Date(a.date)-new Date(b.date)); }
+            if(sort==='ratingHigh'){ list.sort((a,b)=> (b.rating||0)-(a.rating||0)); }
+            if(sort==='ratingLow'){ list.sort((a,b)=> (a.rating||0)-(b.rating||0)); }
+            return list;
+        }
+
+        // Function to render professor details
+        function renderProfessorDetails(professor, schools) {
+            const professorHeaderDiv = document.getElementById('professorHeader');
+            const currentSchool = schools.find(s => 
+                professor.schoolAffiliations.some(aff => 
+                    aff.schoolId === s.id && aff.isCurrent
+                )
+            );
+
+            const previousSchools = schools.filter(s => 
+                professor.schoolAffiliations.some(aff => 
+                    aff.schoolId === s.id && !aff.isCurrent
+                )
+            );
+
+            professorHeaderDiv.innerHTML = `
+                <div class="prof-avatar">
+                        ${professor.firstName[0]}${professor.lastName[0]}
+                    </div>
+                <div class="prof-info">
+                    <h1 class="prof-name">${professor.firstName} ${professor.lastName}</h1>
+                    <p class="prof-department">${professor.departments.join(', ')}</p>
+                    <div class="prof-school">
+                            ${currentSchool ? `
+                            <span>Current:</span>
+                            <a href="school.html?id=${currentSchool.id}">${currentSchool.name}</a>
+                            ` : ''}
+                            ${previousSchools.length > 0 ? `
+                            <span>Previous:</span>
+                                    ${previousSchools.map(school => `
+                                <a href="school.html?id=${school.id}">${school.name}</a>
+                                    `).join(', ')}
+                            ` : ''}
+                    </div>
+                </div>
+                <div class="prof-ratings">
+                    <div class="rating-item">
+                    <div class="rating-number">${professor.ratings.overall.toFixed(1)}</div>
+                    <div class="rating-label">Overall Rating</div>
+                </div>
+                    <div class="rating-item">
+                    <div class="rating-number">${professor.ratings.difficulty.toFixed(1)}</div>
+                    <div class="rating-label">Difficulty</div>
+                </div>
+                    <div class="rating-item">
+                        <div class="rating-number">${(professor.ratings.wouldTakeAgain * 100).toFixed(0)}%</div>
+                        <div class="rating-label">Would Take Again</div>
+                        </div>
+                    </div>
+            `;
+        }
+
+        // Function to render course cards
+        function renderCourseCards(courses, professorId) {
+            const coursesListDiv = document.getElementById('coursesList');
+            const professorCourses = courses.filter(course => 
+                course.professorIds.includes(professorId)
+            );
+
+            if (professorCourses.length === 0) {
+                coursesListDiv.innerHTML = '<div class="no-content">No courses found for this professor.</div>';
+                return;
+            }
+
+            coursesListDiv.innerHTML = professorCourses.map(course => `
+                <div class="course-card" onclick="window.location.href='course.html?id=${course.id}'">
+                    <div class="course-code">${course.code}</div>
+                    <div class="course-name">${course.name}</div>
+                    <div class="course-ratings">
+                        <div class="course-rating">
+                            <div class="course-rating-value">${course.ratings.overall.toFixed(1)}</div>
+                            <div class="course-rating-label">Overall Rating</div>
+                        </div>
+                        <div class="course-rating">
+                            <div class="course-rating-value">${course.ratings.difficulty.toFixed(1)}</div>
+                            <div class="course-rating-label">Difficulty</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Function to render reviews
+        function renderReviews(reviews, courses) {
+            const reviewsListDiv = document.getElementById('reviewsList');
+            if (reviews.length === 0) {
+                reviewsListDiv.innerHTML = '<div class="no-content">No reviews found for this professor.</div>';
+                return;
+            }
+
+            const finalReviews = applyFiltersAndSort(reviews);
+            reviewsListDiv.innerHTML = finalReviews.map(review => {
+                const course = courses.find(c => c.id === review.courseId);
+                const courseName = course ? `${course.code}: ${course.name}` : 'Unknown Course';
+                return `
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-course">${courseName}</span>
+                        <span class="review-date">${new Date(review.date).toLocaleDateString()}</span>
+                    </div>
+                    <div class="review-ratings">
+                        <div class="review-rating">
+                            <span class="review-rating-label">Rating:</span>
+                            <span class="review-rating-value">${review.rating}/5</span>
+                        </div>
+                    </div>
+                    <div class="review-text">${review.comment}</div>
+                    ${review.tags ? `<div class="review-tags">${review.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
+                </div>
+                `;
+            }).join('');
+        }
+
+        // Main initialization function
+        async function initialize() {
+            // Ensure we're at the top before loading content
+            window.scrollTo(0, 0);
+            
+            const data = await loadData();
+            if (!data) return;
+
+            const professorId = getProfessorIdFromUrl();
+            const professor = data.professors.find(p => p.id === professorId);
+            setActiveNav('prof');
+            if (professor) {
+                document.title = `${professor.firstName} ${professor.lastName} - HateMyProfessor`;
+                renderProfessorDetails(professor, data.schools);
+                renderCourseCards(data.courses, professorId);
+                renderReviews(professor.reviews, data.courses);
+                document.getElementById('sortSelect').addEventListener('change', ()=>renderReviews(professor.reviews, data.courses));
+                document.getElementById('tagFilter').addEventListener('input', ()=>renderReviews(professor.reviews, data.courses));
+            } else {
+                document.getElementById('professorHeader').innerHTML = '<h2>Professor not found</h2>';
+                document.getElementById('coursesList').innerHTML = '<div class="no-content">Professor not found.</div>';
+                document.getElementById('reviewsList').innerHTML = '<div class="no-content">Professor not found.</div>';
+            }
+            
+            // Ensure we're at the top after content is rendered
+            window.scrollTo(0, 0);
+            setTimeout(() => window.scrollTo(0, 0), 50);
+            setTimeout(() => window.scrollTo(0, 0), 200);
+        }
+
+        // Also ensure scroll to top after content loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.scrollTo(0, 0);
+        });
+
+        // Initialize the page
+        initialize();
+    </script>
+</body>
+</html> 

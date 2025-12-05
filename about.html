@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - HateMyProfessor</title>
+    <meta name="description" content="About HateMyProfessor: better professor and course reviews with verified insights.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3Eℹ️%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+    <meta property="og:title" content="About - HateMyProfessor">
+    <meta property="og:description" content="About HateMyProfessor: better professor and course reviews with verified insights.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/about.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3f3f46 0%, #27272a 100%);
+            --secondary-gradient: linear-gradient(135deg, #7c2d12 0%, #991b1b 100%);
+            --accent-gradient: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            --success-gradient: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            --dark-bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: rgba(248, 250, 252, 0.7);
+            --text-muted: rgba(248, 250, 252, 0.4);
+            --shadow-primary: 0 25px 50px rgba(0, 0, 0, 0.5);
+            --shadow-secondary: 0 15px 35px rgba(0, 0, 0, 0.3);
+            --shadow-subtle: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(63, 63, 70, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(39, 39, 42, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(63, 63, 70, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding: 20px 0;
+        }
+
+        .header-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            opacity: 0.9;
+            text-decoration: none;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .header-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-nav a.active { color: var(--text-primary); }
+        .header-nav a.active::after { width: 100%; }
+        .hamburger { display:none; background:none; border:none; color:var(--text-secondary); font-size:1.4rem; cursor:pointer; }
+        @media (max-width: 768px) { .hamburger{display:block;} .header-nav{display:none;} .header-nav.open{display:flex; flex-direction:column; gap:16px;} }
+
+        .hero-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 60px 40px;
+            margin-bottom: 60px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-weight: 500;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 48px 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            letter-spacing: -0.01em;
+        }
+
+        .section-subtitle {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            letter-spacing: -0.01em;
+        }
+
+        .content-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .content-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 32px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #f87171 100%);
+        }
+
+        .highlight-text {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .highlight-subtext {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .problem-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .problem-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(63, 63, 70, 0.3);
+        }
+
+        .problem-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .problem-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .problem-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-secondary);
+            border-color: rgba(63, 63, 70, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .feature-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 20px;
+            padding: 32px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #f87171 100%);
+        }
+
+        .cta-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+
+        .cta-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.18);
+            font-family: 'Inter', sans-serif;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.25);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
+            
+            .header-nav {
+                gap: 20px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-section, .content-section, .cta-section {
+                padding: 32px 24px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .content-text {
+                font-size: 1.1rem;
+            }
+            
+            .problems-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .problem-card, .feature-card {
+                padding: 24px;
+            }
+            .cta-section {
+                padding: 20px 10px;
+            }
+            .cta-title {
+                font-size: 1.3rem;
+            }
+            .cta-text {
+                font-size: 0.92rem;
+            }
+            .cta-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="index.html" class="header-logo">HateMyProfessor</a>
+            <button class="hamburger" id="hamburgerBtn">☰</button>
+            <nav class="header-nav" id="mainNav">
+                <a href="index.html#professors" id="navProf">Professors</a>
+                <a href="index.html#schools" id="navSchools">Schools</a>
+                <a href="index.html#classes" id="navClasses">Classes</a>
+            </nav>
+        </header>
+
+
+
+        <div class="content-section">
+            <h2 class="section-title">Our Story</h2>
+            <p class="content-text">
+                It started with a simple question: "Why do students keep getting stuck with terrible professors?" After watching countless friends struggle through courses with professors who clearly didn't care about teaching, we realized the problem wasn't just bad luck—it was a broken system.
+            </p>
+            <p class="content-text">
+                Traditional professor review sites like RateMyProfessors have become popularity contests filled with fake reviews, outdated information, and biased ratings that don't reflect the real classroom experience. Students deserve better. They deserve honest, verified reviews from real students who actually took the classes.
+            </p>
+            
+            <div class="highlight-box">
+                <div class="highlight-text">
+                    "I wish I had known Professor Johnson assigns 50+ pages of reading every night before I registered for his class."
+                </div>
+                <div class="highlight-subtext">
+                    — Sarah M., Junior at UC Berkeley (and thousands of other students who learned the hard way)
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">What's Wrong with RateMyProfessors</h2>
+            <p class="content-text">
+                Let's be honest about the elephant in the room. RateMyProfessors was revolutionary when it launched, but it's become part of the problem:
+            </p>
+            
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <span class="problem-icon">🤖</span>
+                    <h3 class="problem-title">Fake Reviews Everywhere</h3>
+                    <p class="problem-description">
+                        Anyone can write a review without verification. Professors, TAs, and even students from other schools can manipulate ratings, making it impossible to trust what you're reading.
+                    </p>
+                </div>
+                
+                <div class="problem-card">
+                    <span class="problem-icon">📊</span>
+                    <h3 class="problem-title">Misleading Ratings</h3>
+                    <p class="problem-description">
+                        Simple 1-5 star ratings don't capture the complexity of a professor's teaching. Is a 4-star rating because the class was easy or because the professor was genuinely excellent?
+                    </p>
+                </div>
+                
+                <div class="problem-card">
+                    <span class="problem-icon">⏰</span>
+                    <h3 class="problem-title">Outdated Information</h3>
+                    <p class="problem-description">
+                        Reviews from 2018 might not reflect how a professor teaches today. Teaching styles change, course requirements evolve, but old reviews stick around forever.
+                    </p>
+                </div>
+                
+                <div class="problem-card">
+                    <span class="problem-icon">😤</span>
+                    <h3 class="problem-title">Emotional Extremes</h3>
+                    <p class="problem-description">
+                        Only the angriest and happiest students leave reviews, creating a polarized view that doesn't represent the average student experience.
+                    </p>
+                </div>
+                
+                <div class="problem-card">
+                    <span class="problem-icon">🔍</span>
+                    <h3 class="problem-title">Lack of Specific Details</h3>
+                    <p class="problem-description">
+                        "Great professor!" tells you nothing. What's the workload? How are they with office hours? Do they actually teach or just read slides?
+                    </p>
+                </div>
+                
+                <div class="problem-card">
+                    <span class="problem-icon">🎭</span>
+                    <h3 class="problem-title">Popularity Contest</h3>
+                    <p class="problem-description">
+                        Easy professors get high ratings while challenging but excellent educators get trashed. This rewards mediocrity and punishes academic rigor.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">How We're Different</h2>
+            <p class="content-text">
+                HateMyProfessor was built from the ground up to solve these problems. We're not just another review site—we're a verified community of real students sharing honest experiences.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">✅</span>
+                    <h3 class="feature-title">Verified Student Reviews</h3>
+                    <p class="feature-description">
+                        Every reviewer must verify their student status with their university email. No fake accounts, no professor manipulation, just real students sharing real experiences.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">📝</span>
+                    <h3 class="feature-title">Detailed, Specific Feedback</h3>
+                    <p class="feature-description">
+                        Our structured review system captures what actually matters: workload, accessibility, teaching style, exam difficulty, and course organization.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🏷️</span>
+                    <h3 class="feature-title">Smart Tagging System</h3>
+                    <p class="feature-description">
+                        Find professors by what matters to you: "Heavy Reading," "Accessible," "Fair Grader," "Engaging Lectures," or "Tough but Worth It."
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🔄</span>
+                    <h3 class="feature-title">Fresh, Relevant Reviews</h3>
+                    <p class="feature-description">
+                        We prioritize recent reviews and clearly mark when information might be outdated. You'll see how professors teach today, not five years ago.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">Course-Specific Insights</h3>
+                    <p class="feature-description">
+                        Same professor, different experience. Our reviews are tied to specific courses so you know exactly what to expect from "Intro to Psychology" vs "Advanced Research Methods."
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🛡️</span>
+                    <h3 class="feature-title">Moderated Community</h3>
+                    <p class="feature-description">
+                        We actively moderate reviews to prevent harassment while maintaining honest feedback. It's about helping students, not destroying careers.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Why This Matters</h2>
+            <p class="content-text">
+                Your education is expensive. The average college student pays over $35,000 per year for tuition alone. You deserve to know what you're getting for that investment. A bad professor can:
+            </p>
+            <ul style="font-size: 1.2rem; color: var(--text-secondary); line-height: 1.8; margin: 24px 0; padding-left: 24px;">
+                <li>Waste your time with unclear lectures and poor organization</li>
+                <li>Damage your GPA with unfair grading practices</li>
+                <li>Kill your passion for subjects you might otherwise love</li>
+                <li>Provide poor recommendations for graduate school or jobs</li>
+                <li>Leave you unprepared for advanced courses in your major</li>
+            </ul>
+            <p class="content-text">
+                Meanwhile, a great professor can inspire you, challenge you to grow, and open doors to opportunities you never imagined. The difference between a good and bad professor isn't just grades—it's your entire academic trajectory.
+            </p>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Join the Movement</h2>
+            <p class="cta-text">
+                Help us build a platform where students can make smarter choices about their education. Share your experiences and let's fix the broken system together.
+            </p>
+            <a href="index.html" class="cta-button">Start Reviewing Professors</a>
+        </div>
+    </div>
+    <script>
+        // Hamburger menu functionality
+        document.getElementById('hamburgerBtn').addEventListener('click', () => {
+            document.getElementById('mainNav').classList.toggle('open');
+        });
+
+        // Set active navigation
+        function setActiveNav() {
+            // No specific active nav for about page
+        }
+
+        // Disable browser scroll restoration
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Immediately prevent any scrolling on page load
+        (function() {
+            window.scrollTo(0, 0);
+            if (window.location.hash) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+        })();
+
+        // Ensure page always starts at the top
+        window.scrollTo(0, 0);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            window.scrollTo(0, 0);
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', setActiveNav);
+    </script>
+</body>
+</html> 
